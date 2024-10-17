@@ -24,10 +24,10 @@ world.
 
 ```bash
 # Regular install
-npm install --save tldextract
+npm install --save tld-parse
 
 # You can update the list of well-known TLD during the install
-npm install --save tldextract --tldjs-update-rules
+npm install --save tld-parse --tld-update-rules
 ```
 
 ## Usage
