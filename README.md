@@ -1,4 +1,4 @@
-# tldextract
+# tld-parse
 
 `tldextract` accurately separates a URL's subdomain, domain, and public suffix,
 using [the Public Suffix List (PSL)](https://publicsuffix.org).
