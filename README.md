@@ -16,9 +16,7 @@ suffixes according to [the Public Suffix List](https://publicsuffix.org).
 
 A public suffix is also sometimes called an effective TLD (eTLD).
 
-The latter is useful if you significantly rely on an up-to-date list of TLDs. You
-can [list the recent changes][] ([changes Atom Feed][]) to get a better idea of what is going on in the Public Suffix
-world.
+
 
 ## Install
 
@@ -29,6 +27,7 @@ npm install --save tld-parse
 # You can update the list of well-known TLD during the install
 npm install --save tld-parse --tld-update-rules
 ```
+The latter is useful if you significantly rely on an up-to-date list of TLDs. You can [list the recent changes][] ([changes Atom Feed][]) to get a better idea of what is going on in the Public Suffix world.
 
 ## Usage
 
