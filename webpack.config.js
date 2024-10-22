@@ -1,21 +1,11 @@
 const path = require('path');
+const { merge } = require('webpack-merge');
 
-module.exports = {
+
+const commonConfig = {
   mode: 'development',
   devtool: 'source-map',
   entry: './index.ts',
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/dist/',
-    clean: true,
-    library: {
-      type: 'module', // 使用模块化输出
-    },
-  },
-  experiments: {
-    outputModule: true, // 启用输出为 ES 模块
-  },
   resolve: {
     extensions: ['.ts', '.js'],
   },
@@ -41,3 +31,36 @@ module.exports = {
     port: 8080,
   },
 };
+
+
+const jsConfig = {
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/dist/',
+    clean: true,
+    libraryTarget: 'commonjs2', // 使用 CommonJS 模块系统
+  },
+};
+
+
+const mjsConfig = {
+  output: {
+    filename: 'bundle.mjs',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/dist/',
+    clean: true,
+    library: {
+      type: 'module', // 使用 ES 模块
+    },
+  },
+  experiments: {
+    outputModule: true, // 启用输出为 ES 模块
+  },
+};
+
+// 导出两个配置
+module.exports = [
+  merge(commonConfig, jsConfig),
+  merge(commonConfig, mjsConfig),
+];

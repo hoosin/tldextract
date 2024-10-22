@@ -1,11 +1,18 @@
 {
   "name": "tld-parse",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Accurately separates a URL’s subdomain, domain, and public suffix, using the Public Suffix List (PSL).",
   "directories": {
     "lib": "lib"
   },
-  "main": "dist/index.js",
+  "main": "dist/bundle.js",
+  "module": "dist/bundle.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/bundle.mjs",
+      "require": "./dist/bundle.js"
+    }
+  },
   "files": [
     "dist",
     "README.md"
@@ -30,6 +37,7 @@
     "typescript": "^4.9.5",
     "webpack": "^5.95.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.1.0"
+    "webpack-dev-server": "^5.1.0",
+    "webpack-merge": "^6.0.1"
   }
 }
