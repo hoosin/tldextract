@@ -7,11 +7,16 @@
 </head>
 <body>
 <script type="module">
-  import factory from '../dist/bundle.js';
+  import factory from '../dist/bundle.mjs';
 
-  const extract = factory('www.baidu.com');
-  console.log(extract);
-
+  console.log(factory('baidu.com.cn'));
+  console.log(factory('pan.baidu.com.cn'));
+  console.log(factory('baidu.google.notavalidsuffix'));
+  console.log(factory('art.pl'));
+  console.log(factory('com.art.pl'));
+  console.log(factory('http://forums.news.cnn.com/'));
+  console.log(factory('http://forums.bbc.co.uk/'));
+  console.log(factory('http://www.worldbank.org.kg/'));
 </script>
 </body>
 </html>

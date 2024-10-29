@@ -22,7 +22,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build": " npx webpack --config webpack.config.js",
-    "dev": "npx webpack serve --config webpack.config.js",
+    "dev": "npx webpack serve --config-name mjsConfig",
     "prepare": "npm run build",
     "test": "jest"
   },

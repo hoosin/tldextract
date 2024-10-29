@@ -1,4 +1,4 @@
-import loader, { publicPart, privatePart } from "./lib/loder";
+import loader, { publicPart, privatePart } from "./lib/loader";
 
 import parse from "./lib/parse";
 import { getSuffix } from "./lib/tld";
@@ -8,12 +8,20 @@ interface Attributes {
   [key: string]: any;
 }
 
+
 export default function factory(domain: string) {
 
   loader()
+  try {
+    const url = new URL(domain);
+    domain = url.hostname
+
+  } catch (e) {
+
+  }
+
 
   const { subdomain, sld, suffix, isPrivate }: Attributes = getSuffix(domain, parse(publicPart), parse(privatePart))
-
 
   return new ExtractResult<string, string, string, boolean>(
     subdomain,

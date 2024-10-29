@@ -1,7 +1,6 @@
 const path = require('path');
 const { merge } = require('webpack-merge');
 
-
 const commonConfig = {
   mode: 'development',
   devtool: 'source-map',
@@ -22,9 +21,39 @@ const commonConfig = {
       },
     ],
   },
+};
+
+const jsConfig = {
+  name: 'jsConfig',  // 添加名称
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/dist/',
+    clean: true,
+    libraryTarget: 'commonjs2',
+  },
+};
+
+const mjsConfig = {
+  name: 'mjsConfig',  // 添加名称
+  output: {
+    filename: 'bundle.mjs',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/dist/',
+    clean: true,
+    library: {
+      type: 'module',
+    },
+  },
+  experiments: {
+    outputModule: true,
+  },
+};
+
+const devServerConfig = {
   devServer: {
     static: {
-      directory: path.join(__dirname, 'dev'), // 提供静态文件的目录
+      directory: path.join(__dirname, 'dev'),
     },
     open: true,
     hot: true,
@@ -32,35 +61,8 @@ const commonConfig = {
   },
 };
 
-
-const jsConfig = {
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/dist/',
-    clean: true,
-    libraryTarget: 'commonjs2', // 使用 CommonJS 模块系统
-  },
-};
-
-
-const mjsConfig = {
-  output: {
-    filename: 'bundle.mjs',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/dist/',
-    clean: true,
-    library: {
-      type: 'module', // 使用 ES 模块
-    },
-  },
-  experiments: {
-    outputModule: true, // 启用输出为 ES 模块
-  },
-};
-
-// 导出两个配置
+// 导出配置
 module.exports = [
-  merge(commonConfig, jsConfig),
-  merge(commonConfig, mjsConfig),
+  merge(commonConfig, jsConfig, devServerConfig),
+  merge(commonConfig, mjsConfig, devServerConfig),
 ];
