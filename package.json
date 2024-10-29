@@ -1,6 +1,6 @@
 {
   "name": "tld-parse",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Accurately separates a URL’s subdomain, domain, and public suffix, using the Public Suffix List (PSL).",
   "directories": {
     "lib": "lib"

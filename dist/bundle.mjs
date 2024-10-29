@@ -36,10 +36,10 @@ class ExtractResult {
 
 /***/ }),
 
-/***/ "./lib/loder.ts":
-/*!**********************!*\
-  !*** ./lib/loder.ts ***!
-  \**********************/
+/***/ "./lib/loader.ts":
+/*!***********************!*\
+  !*** ./lib/loader.ts ***!
+  \***********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -92,33 +92,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   getSuffix: () => (/* binding */ getSuffix)
 /* harmony export */ });
 function getSuffix(domain, publicSuffixList, privateSuffixList) {
-    const domainParts = domain.split('.').reverse();
     let suffix = '';
     let isPrivate = false;
-    for (let i = 0; i < domainParts.length; i++) {
-        const candidate = domainParts
-            .slice(0, i + 1)
-            .reverse()
-            .join('.');
-        if (privateSuffixList.includes(candidate)) {
+    for (const privateSuffix of privateSuffixList) {
+        if (domain.endsWith(privateSuffix) && privateSuffix.length > suffix.length) {
+            suffix = privateSuffix;
             isPrivate = true;
-            suffix = candidate;
-            break;
         }
     }
     if (!suffix) {
-        for (let i = 0; i < domainParts.length; i++) {
-            const candidate = domainParts
-                .slice(0, i + 1)
-                .reverse()
-                .join('.');
-            if (publicSuffixList.includes(candidate)) {
-                suffix = candidate;
-                break;
+        for (const publicSuffix of publicSuffixList) {
+            if (domain.endsWith(publicSuffix) && publicSuffix.length > suffix.length) {
+                suffix = publicSuffix;
+                isPrivate = false;
             }
         }
     }
-    const domainWithoutSuffix = domain.replace(`.${suffix}`, '');
+    if (!suffix) {
+        const domainParts = domain.split('.');
+        const sld = domainParts.pop(); // 最后一部分为 sld
+        const subdomain = domainParts.join('.'); // 剩下的部分为 subdomain
+        return { subdomain, sld, suffix: '', isPrivate: false };
+    }
+    const domainWithoutSuffix = domain.slice(0, -suffix.length - 1);
     const domainPartsWithoutSuffix = domainWithoutSuffix.split('.');
     let sld = '';
     let subdomain = '';
@@ -127,7 +123,7 @@ function getSuffix(domain, publicSuffixList, privateSuffixList) {
         subdomain = '';
     }
     else {
-        sld = domainPartsWithoutSuffix.pop();
+        sld = domainPartsWithoutSuffix.pop() || '';
         subdomain = domainPartsWithoutSuffix.join('.');
     }
     return { subdomain, sld, suffix, isPrivate };
@@ -202,7 +198,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ factory)
 /* harmony export */ });
-/* harmony import */ var _lib_loder__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/loder */ "./lib/loder.ts");
+/* harmony import */ var _lib_loader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/loader */ "./lib/loader.ts");
 /* harmony import */ var _lib_parse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./lib/parse */ "./lib/parse.ts");
 /* harmony import */ var _lib_tld__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lib/tld */ "./lib/tld.ts");
 /* harmony import */ var _lib_extract_result__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./lib/extract-result */ "./lib/extract-result.ts");
@@ -211,8 +207,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function factory(domain) {
-    (0,_lib_loder__WEBPACK_IMPORTED_MODULE_0__["default"])();
-    const { subdomain, sld, suffix, isPrivate } = (0,_lib_tld__WEBPACK_IMPORTED_MODULE_2__.getSuffix)(domain, (0,_lib_parse__WEBPACK_IMPORTED_MODULE_1__["default"])(_lib_loder__WEBPACK_IMPORTED_MODULE_0__.publicPart), (0,_lib_parse__WEBPACK_IMPORTED_MODULE_1__["default"])(_lib_loder__WEBPACK_IMPORTED_MODULE_0__.privatePart));
+    (0,_lib_loader__WEBPACK_IMPORTED_MODULE_0__["default"])();
+    try {
+        const url = new URL(domain);
+        domain = url.hostname;
+    }
+    catch (e) {
+    }
+    const { subdomain, sld, suffix, isPrivate } = (0,_lib_tld__WEBPACK_IMPORTED_MODULE_2__.getSuffix)(domain, (0,_lib_parse__WEBPACK_IMPORTED_MODULE_1__["default"])(_lib_loader__WEBPACK_IMPORTED_MODULE_0__.publicPart), (0,_lib_parse__WEBPACK_IMPORTED_MODULE_1__["default"])(_lib_loader__WEBPACK_IMPORTED_MODULE_0__.privatePart));
     return new _lib_extract_result__WEBPACK_IMPORTED_MODULE_3__["default"](subdomain, sld, suffix, isPrivate);
 }
 
