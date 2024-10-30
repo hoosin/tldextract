@@ -21,6 +21,9 @@ export default function factory(domain: string) {
   }
 
 
+  domain = domain.toLowerCase()
+
+
   const { subdomain, sld, suffix, isPrivate }: Attributes = getSuffix(domain, parse(publicPart), parse(privatePart))
 
   return new ExtractResult<string, string, string, boolean>(
