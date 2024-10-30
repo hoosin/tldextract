@@ -16,7 +16,7 @@ const commonConfig = {
         exclude: /node_modules/,
       },
       {
-        test: /\.txt$/,
+        test: /\.dat$/,
         use: 'raw-loader',
       },
     ],

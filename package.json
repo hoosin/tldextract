@@ -24,7 +24,9 @@
     "build": " npx webpack --config webpack.config.js",
     "dev": "npx webpack serve --config-name mjsConfig",
     "prepare": "npm run build",
-    "test": "jest"
+    "test": "jest",
+    "fetch-tld": "make",
+    "clean-tld": "make clean"
   },
   "devDependencies": {
     "@types/jest": "^29.5.13",

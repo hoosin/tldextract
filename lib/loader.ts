@@ -1,4 +1,4 @@
-import tld from '../bin/public_suffix_list.dat.txt';
+import tld from '../bin/public_suffix_list.dat';
 
 let publicPart: string;
 let privatePart: string;

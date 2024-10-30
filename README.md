@@ -32,9 +32,11 @@ The latter is useful if you significantly rely on an up-to-date list of TLDs. Yo
 ## Usage
 
 ```js
-import factory from '../dist/bundle.js';
+import tldParse from 'tld-parse'
 
-const extract = factory('www.google.com');
+
+
+const extract = tldParse('www.google.com');
 
 // { domain: 'google',
 //   isPrivate: false,
@@ -56,7 +58,4 @@ your suffix piecemeal with the `extra_suffixes` param.
 
 ### I see my suffix in [the Public Suffix List (PSL)](https://publicsuffix.org/), but this library doesn't extract it.
 
-Check if your suffix is in the private section of the list. See [this
-documentation](#public-vs-private-domains).
-
- 
+Check if your suffix is in the private section of the list. See [this documentation](#public-vs-private-domains).
