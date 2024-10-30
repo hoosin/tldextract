@@ -3,8 +3,17 @@ export function getSuffix(domain: string, publicSuffixList: Array<string>, priva
   let isPrivate = false;
 
 
+  function isSuffixMatch(domainParts: string[], suffixParts: string[]): boolean {
+    if (suffixParts.length > domainParts.length) return false;
+    return suffixParts.every((part, index) => part === domainParts[domainParts.length - suffixParts.length + index]);
+  }
+
+  const domainParts = domain.split('.');
+
+
   for (const privateSuffix of privateSuffixList) {
-    if (domain.endsWith(privateSuffix) && privateSuffix.length > suffix.length) {
+    const privateSuffixParts = privateSuffix.split('.');
+    if (isSuffixMatch(domainParts, privateSuffixParts) && privateSuffix.length > suffix.length) {
       suffix = privateSuffix;
       isPrivate = true;
     }
@@ -13,7 +22,8 @@ export function getSuffix(domain: string, publicSuffixList: Array<string>, priva
 
   if (!suffix) {
     for (const publicSuffix of publicSuffixList) {
-      if (domain.endsWith(publicSuffix) && publicSuffix.length > suffix.length) {
+      const publicSuffixParts = publicSuffix.split('.');
+      if (isSuffixMatch(domainParts, publicSuffixParts) && publicSuffix.length > suffix.length) {
         suffix = publicSuffix;
         isPrivate = false;
       }
@@ -22,19 +32,16 @@ export function getSuffix(domain: string, publicSuffixList: Array<string>, priva
 
 
   if (!suffix) {
-    const domainParts = domain.split('.');
-    const sld = domainParts.pop(); // 最后一部分为 sld
-    const subdomain = domainParts.join('.'); // 剩下的部分为 subdomain
+    const sld = domainParts.pop() || '';
+    const subdomain = domainParts.join('.');
     return { subdomain, sld, suffix: '', isPrivate: false };
   }
 
 
-
   const domainWithoutSuffix = domain.slice(0, -suffix.length - 1);
-  const domainPartsWithoutSuffix = domainWithoutSuffix.split('.')
+  const domainPartsWithoutSuffix = domainWithoutSuffix.split('.');
 
-  let sld = ''
-
+  let sld = '';
   let subdomain = '';
 
   if (domainPartsWithoutSuffix.length === 1) {

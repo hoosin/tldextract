@@ -214,6 +214,7 @@ function factory(domain) {
     }
     catch (e) {
     }
+    domain = domain.toLowerCase();
     const { subdomain, sld, suffix, isPrivate } = (0,_lib_tld__WEBPACK_IMPORTED_MODULE_2__.getSuffix)(domain, (0,_lib_parse__WEBPACK_IMPORTED_MODULE_1__["default"])(_lib_loader__WEBPACK_IMPORTED_MODULE_0__.publicPart), (0,_lib_parse__WEBPACK_IMPORTED_MODULE_1__["default"])(_lib_loader__WEBPACK_IMPORTED_MODULE_0__.privatePart));
     return new _lib_extract_result__WEBPACK_IMPORTED_MODULE_3__["default"](subdomain, sld, suffix, isPrivate);
 }
